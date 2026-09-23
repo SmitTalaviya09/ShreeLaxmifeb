@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <!-- A true plain weave: warp and weft alternate over and under, exactly like
+       cloth off the loom. Drawn in neutral greys so it can be blended in
+       `overlay` mode over any background colour without shifting its tone.
+       Tiles perfectly at 40x40 — no seams, no repeating artefacts. -->
+  <defs>
+    <linearGradient id="warp" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0"    stop-color="#6b6b6b"/>
+      <stop offset="0.18" stop-color="#8b8b8b"/>
+      <stop offset="0.44" stop-color="#a2a2a2"/>
+      <stop offset="0.62" stop-color="#979797"/>
+      <stop offset="0.86" stop-color="#7c7c7c"/>
+      <stop offset="1"    stop-color="#666666"/>
+    </linearGradient>
+    <linearGradient id="weft" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"    stop-color="#6b6b6b"/>
+      <stop offset="0.18" stop-color="#8b8b8b"/>
+      <stop offset="0.44" stop-color="#a2a2a2"/>
+      <stop offset="0.62" stop-color="#979797"/>
+      <stop offset="0.86" stop-color="#7c7c7c"/>
+      <stop offset="1"    stop-color="#666666"/>
+    </linearGradient>
+  </defs>
+
+  <!-- the shadow between threads -->
+  <rect width="40" height="40" fill="#6f6f6f"/>
+
+  <!-- cell 0,0 — warp passes over -->
+  <rect x="0"  y="2"  width="20" height="16" fill="url(#weft)"/>
+  <rect x="2"  y="0"  width="16" height="20" fill="url(#warp)"/>
+
+  <!-- cell 1,0 — weft passes over -->
+  <rect x="22" y="0"  width="16" height="20" fill="url(#warp)"/>
+  <rect x="20" y="2"  width="20" height="16" fill="url(#weft)"/>
+
+  <!-- cell 0,1 — weft passes over -->
+  <rect x="2"  y="20" width="16" height="20" fill="url(#warp)"/>
+  <rect x="0"  y="22" width="20" height="16" fill="url(#weft)"/>
+
+  <!-- cell 1,1 — warp passes over -->
+  <rect x="20" y="22" width="20" height="16" fill="url(#weft)"/>
+  <rect x="22" y="20" width="16" height="20" fill="url(#warp)"/>
+</svg>
