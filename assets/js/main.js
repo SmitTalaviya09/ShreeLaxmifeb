@@ -487,6 +487,12 @@
               msg: 'Enter a number, e.g. 5000' }
   };
 
+  // Paste your deployed Google Apps Script Web App URL here (see
+  // google-sheet-sync.gs in the project root for the one-time setup) to also
+  // log every enquiry as a row in a Google Sheet. Leave blank to skip that —
+  // Netlify Forms alone still works fine without it.
+  const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx7n5xrpGRRsTXPiJKhcbBvQOnm5OLzqvVybSzJbUoNrE9-i8dBYuQBkVQGXox2EW_h/exec';
+
   function form() {
     const f = $('#form');
     if (!f) return;
@@ -558,29 +564,36 @@
         return;
       }
 
-      const btn = $('#submitBtn');
-      btn.classList.add('is-sent');
-      $('span', btn).textContent = 'Enquiry Sent ✓';
+      const btn = $('#submitBtn'), label = $('span', btn);
+      const body = new URLSearchParams(new FormData(f)).toString();
 
-      // ---- CONNECT YOUR BACKEND HERE ----
-      // Easiest option: create a free form at https://formspree.io and paste
-      // the endpoint below. Until then this only shows the success state.
-      //
-      // fetch('https://formspree.io/f/YOUR_ID', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      //   body: JSON.stringify({
-      //     name: fName.value, company: fCo.value, phone: fPhone.value,
-      //     email: fMail.value, fabric: fType.value, qty: fQty.value, message: fMsg.value
-      //   })
-      // });
+      // Delivered via Netlify Forms — free, no backend of our own. Netlify's
+      // build step detects the <form data-netlify="true"> in index.html and
+      // wires up an endpoint automatically; this just submits to it the way
+      // Netlify's own docs describe for JS-driven forms (a plain POST to the
+      // current page with the fields urlencoded). Only works once the site is
+      // deployed on Netlify — on the local dev server this request 404s, so
+      // we still show success either way rather than blocking the demo.
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body })
+        .catch(() => {});
+
+      // Also logs the same submission as a row in a Google Sheet, if set up.
+      // mode:'no-cors' is required for Apps Script Web Apps — we don't need
+      // to read the response, just fire the request.
+      if (SHEET_ENDPOINT) {
+        fetch(SHEET_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body })
+          .catch(() => {});
+      }
+
+      btn.classList.add('is-sent');
+      label.textContent = 'Enquiry Sent ✓';
 
       setTimeout(() => {
         f.reset();
         $$('.f-row').forEach(r => r.classList.remove('has-val', 'is-bad', 'was-checked'));
         $$('.f-err').forEach(s => { s.textContent = ''; });
       }, 2200);
-      setTimeout(() => { btn.classList.remove('is-sent'); $('span', btn).textContent = 'Send Enquiry'; }, 4200);
+      setTimeout(() => { btn.classList.remove('is-sent'); label.textContent = 'Send Enquiry'; }, 4200);
     });
   }
 

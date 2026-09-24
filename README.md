@@ -29,6 +29,7 @@ assets/css/style.css     all styling (colour tokens at the top)
 assets/js/main.js        all animation and interaction
 assets/video/            ← put your video files here
 assets/img/              ← put your photos here
+google-sheet-sync.gs     paste into Google Apps Script to log enquiries to a Sheet
 MASTER-PROMPT.md         the full site brief
 HERO-VIDEO-PLAN.md       how to shoot and prepare the video
 ```
@@ -119,15 +120,81 @@ loom canvas automatically — it never shows an empty black box.
 
 ## Making the enquiry form actually send
 
-Right now the form validates and shows a success state but does not deliver
-anywhere. Cheapest working option:
+The form is already wired up for **Netlify Forms** — free, no backend, no
+API key. The `<form data-netlify="true" name="enquiry">` in `index.html` and
+the submit handler in `assets/js/main.js` are ready to go. All you have to do:
 
-1. Sign up free at https://formspree.io and create a form.
-2. Copy your endpoint (looks like `https://formspree.io/f/abcdwxyz`).
-3. Open `assets/js/main.js`, find `CONNECT YOUR BACKEND HERE`, uncomment the
-   `fetch(...)` block and paste your endpoint.
+1. Deploy the site to Netlify (drag this folder onto https://app.netlify.com/drop,
+   or connect the repo — either way).
+2. In the Netlify dashboard: **Site settings → Forms → Form notifications →
+   Add notification → Email notification**. Add your email.
+3. Submit the form once on the live site and confirm the email arrives.
 
-Test it once and check the mail arrives before you announce the site.
+That's it — every enquiry now lands in Netlify's Forms dashboard and emails
+you automatically. There's a hidden honeypot field (`bot-field`) already in
+the form for basic spam filtering, at no extra cost.
+
+**Only works once deployed on Netlify** — Netlify's build step is what
+detects the form and creates the endpoint. On `node serve.js` or a plain
+file-open, the request has nowhere real to go, so the success message still
+shows (for demo purposes) but nothing is actually delivered.
+
+**Not using Netlify?** Swap the fetch in `main.js`'s submit handler for
+[Web3Forms](https://web3forms.com) (free, works on any host, just needs an
+access key emailed to you) or [Formspree](https://formspree.io) (free up to
+50 submissions/month) instead — both use the same "POST some form data,
+get emailed" shape.
+
+---
+
+## Also logging every enquiry into a Google Sheet
+
+Optional, on top of the email notification above — free, no limits, no extra
+account beyond your own Google account. `google-sheet-sync.gs` in this folder
+has the full script and step-by-step setup instructions as comments at the
+top of the file. Short version:
+
+1. Create a blank Google Sheet (or use one you already made). Copy its ID out
+   of the URL — `https://docs.google.com/spreadsheets/d/THIS_PART/edit`.
+2. In Apps Script (from script.google.com, or Drive → New → Google Apps
+   Script — it does **not** need to be opened from inside the Sheet itself),
+   paste in `google-sheet-sync.gs`, then paste that ID into `SHEET_ID` near
+   the top of the file.
+3. Deploy it as a Web App (**Execute as: Me**, **Who has access: Anyone**).
+4. Copy the URL it gives you (ends in `/exec`).
+5. Open `assets/js/main.js`, find `const SHEET_ENDPOINT = ''` near the top of
+   the `form()` function, and paste the URL between the quotes.
+
+Every submission now lands as a new row — timestamp, name, company, phone,
+email, fabric type, quantity, message — alongside the Netlify email
+notification, not instead of it.
+
+**Important gotcha:** editing the code in the Apps Script editor does **not**
+update what's actually live. After any change (including pasting in
+`SHEET_ID` or `RECAPTCHA_SECRET_KEY`), go to **Deploy → Manage deployments →
+pencil icon → Version: "New version" → Deploy** to push it to the same URL.
+Skipping this step is the most common reason the Sheet stays empty even
+though everything "looks" set up correctly.
+
+---
+
+## Stopping fake entries from reaching the Sheet
+
+The Sheet endpoint's URL lives in plain text in `assets/js/main.js` — visible
+to anyone who views the page source, so on its own it has no protection
+against someone scripting direct POSTs to it. Right now the only guard is a
+**required-field check** built into `google-sheet-sync.gs` — any submission
+missing name/company/phone/fabric/quantity is rejected outright.
+
+Google reCAPTCHA v3 (free, invisible) would add real bot-filtering on top of
+that, but it requires a one-time Google authorization step for the Apps
+Script to be allowed to call an external service — this tripped up the setup
+once already, so it's not currently wired in. Worth revisiting once traffic
+picks up enough to justify it: the Apps Script side needs a
+`UrlFetchApp.fetch()` call to `https://www.google.com/recaptcha/api/siteverify`,
+and the **first** time that code runs (via the `test()` function pattern,
+not `doPost` directly), Google will prompt an authorization popup that must
+be accepted — that's the step to get right on a second attempt.
 
 ---
 

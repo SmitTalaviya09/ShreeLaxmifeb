@@ -67,10 +67,17 @@ button,input,select,textarea{font:inherit;color:inherit}
   position:fixed;top:0;left:0;right:0;z-index:7000;
   display:flex;align-items:center;justify-content:space-between;gap:20px;
   padding:20px var(--pad);
-  transition:background .45s var(--ease),padding .45s var(--ease),border-color .45s;
+  transition:padding .45s var(--ease),border-color .45s;
   border-bottom:1px solid transparent;
 }
-.nav.is-stuck{background:rgba(27,24,21,.86);backdrop-filter:blur(16px);padding:13px var(--pad);border-bottom-color:rgba(212,175,55,.18)}
+/* The frosted-glass background lives on a pseudo-element rather than on
+   .nav itself. backdrop-filter directly on .nav would make .nav the
+   containing block for its own position:fixed children — including the
+   mobile nav-links drawer — which breaks the drawer once scrolled (it gets
+   squeezed into the thin nav bar's box instead of covering the viewport). */
+.nav::before{content:'';position:absolute;inset:0;z-index:-1;background:transparent;transition:background .45s var(--ease)}
+.nav.is-stuck::before{background:rgba(27,24,21,.86);backdrop-filter:blur(16px)}
+.nav.is-stuck{padding:13px var(--pad);border-bottom-color:rgba(212,175,55,.18)}
 .brand{display:flex;align-items:center;gap:12px}
 .brand-text{font-family:var(--serif);font-size:1.06rem;letter-spacing:.2em;color:var(--ivory)}
 .brand-text em{font-style:normal;color:var(--gold)}

@@ -217,13 +217,15 @@
       </div>
     </div>
 
-    <form class="form" id="form" novalidate>
+    <form class="form" id="form" name="enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="enquiry">
+      <p style="position:absolute;left:-9999px" aria-hidden="true"><label>Leave this field blank: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
       <div class="f-row"><input type="text" id="fName" name="name" autocomplete="name" maxlength="60" required><label for="fName">Your Name</label><i></i></div>
       <div class="f-row"><input type="text" id="fCo" name="company" autocomplete="organization" maxlength="80" required><label for="fCo">Company</label><i></i></div>
       <div class="f-row"><input type="tel" id="fPhone" name="phone" autocomplete="tel" inputmode="tel" maxlength="20" required><label for="fPhone">Phone / WhatsApp</label><i></i></div>
       <div class="f-row"><input type="email" id="fMail" name="email" autocomplete="email" maxlength="120"><label for="fMail">Email</label><i></i></div>
       <div class="f-row f-sel">
-        <select id="fType" required>
+        <select id="fType" name="fabric" required>
           <option value="" selected disabled></option>
           <option>Polyester Greige</option><option>Taffeta</option><option>Crepe Satin</option>
           <option>Chiffon / Georgette</option><option>Micro Polyester</option><option>Lining Fabric</option>
@@ -232,7 +234,7 @@
         <label for="fType">Fabric Type</label><i></i>
       </div>
       <div class="f-row"><input type="text" id="fQty" name="qty" inputmode="numeric" maxlength="12" required><label for="fQty">Monthly Quantity (metres)</label><i></i></div>
-      <div class="f-row f-full"><textarea id="fMsg" rows="3"></textarea><label for="fMsg">Width, GSM, denier or any other detail</label><i></i></div>
+      <div class="f-row f-full"><textarea id="fMsg" name="message" rows="3"></textarea><label for="fMsg">Width, GSM, denier or any other detail</label><i></i></div>
       <button type="submit" class="btn btn-fill f-full" id="submitBtn"><span>Send Enquiry</span></button>
       <p class="f-note f-full">We reply within one working day. Your details are never shared.</p>
     </form>
