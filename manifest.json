@@ -1,0 +1,16 @@
+{
+  "name": "Shree Laxmifeb",
+  "short_name": "Shree Laxmifeb",
+  "description": "Water jet loom fabric manufacturing unit in Surat, Gujarat.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1B1815",
+  "theme_color": "#1B1815",
+  "icons": [
+    {
+      "src": "assets/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

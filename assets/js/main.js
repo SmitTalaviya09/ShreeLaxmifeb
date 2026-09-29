@@ -31,6 +31,25 @@
     else el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  /* Lenis' stop()/start() alone doesn't block native touch/wheel scroll in
+     this config, so a modal open still let the page scroll behind it -
+     lock the body in place too, restoring the exact scroll position on close. */
+  let lockY = 0;
+  const lockScroll = () => {
+    lockY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${lockY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+  };
+  const unlockScroll = () => {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    window.scrollTo(0, lockY);
+  };
+
   /* ==========================================================
      4. NAV
      ========================================================== */
@@ -414,7 +433,7 @@
     const qv = $('#qv'), box = $('#qvBox'), x = $('#qvX');
     if (!qv || !box) return { open: () => {} };
 
-    const close = () => { qv.classList.remove('is-open'); if (lenis) lenis.start(); };
+    const close = () => { qv.classList.remove('is-open'); if (lenis) lenis.start(); unlockScroll(); };
 
     const open = i => {
       const f = FABRICS[i];
@@ -441,6 +460,7 @@
         </div>`;
       qv.classList.add('is-open');
       if (lenis) lenis.stop();
+      lockScroll();
     };
 
     box.addEventListener('click', e => {
@@ -764,8 +784,8 @@
   function modal() {
     const m = $('#filmModal'), open = $('#openFilm'), x = $('#modalX');
     const vid = () => $('video', m);
-    const close = () => { m.classList.remove('is-open'); if (vid()) vid().pause(); if (lenis) lenis.start(); };
-    open.addEventListener('click', () => { m.classList.add('is-open'); if (lenis) lenis.stop(); if (vid()) vid().play().catch(() => {}); });
+    const close = () => { m.classList.remove('is-open'); if (vid()) vid().pause(); if (lenis) lenis.start(); unlockScroll(); };
+    open.addEventListener('click', () => { m.classList.add('is-open'); if (lenis) lenis.stop(); lockScroll(); if (vid()) vid().play().catch(() => {}); });
     x.addEventListener('click', close);
     m.addEventListener('click', e => { if (e.target === m) close(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
