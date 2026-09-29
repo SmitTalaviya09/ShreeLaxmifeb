@@ -218,6 +218,18 @@ Add, remove or reorder freely — the grid and filters update automatically.
 **To swap a fabric photo:** just overwrite `assets/img/fab-taffeta.jpg` with your
 own picture, keeping the filename. Or point `img:` at a new file you added.
 
+**To show several photos of one fabric:** make `img` a list instead of a single
+name. Clicking the fabric opens it large, and a row of thumbnails appears under
+the main photo so buyers can flip between shots:
+
+```js
+img: ['fab-taffeta.jpg', 'fab-taffeta-2.jpg', 'fab-taffeta-roll.jpg']
+```
+
+One photo works exactly as before — the thumbnail strip only appears when there
+are two or more. Worth shooting per fabric: a flat close-up of the weave, the
+fabric draped (so buyers can judge the fall), and a full roll.
+
 ---
 
 ## The woven background texture

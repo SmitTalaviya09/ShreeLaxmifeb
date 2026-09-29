@@ -352,16 +352,20 @@
       s: { Width: '58"', GSM: '120 – 220', Denier: '150D – 300D', MOQ: '5,000 m' }, c: ['#2B3F4E', '#4A6779'], img: 'fab-oxford.jpg' }
   ];
 
-  function products() {
+  // A fabric's img may be a single filename or an array of them — one photo
+  // works fine, several turn on the thumbnail strip in the quick view.
+  const photosOf = f => (Array.isArray(f.img) ? f.img : [f.img]);
+
+  function products(qv) {
     const grid = $('#grid');
     if (!grid) return;
 
-    grid.innerHTML = FABRICS.map(f => `
-      <article class="card" data-f="${f.f}">
+    grid.innerHTML = FABRICS.map((f, i) => `
+      <article class="card" data-f="${f.f}" data-i="${i}">
         <div class="card-swatch" style="background:
             repeating-linear-gradient(90deg, ${f.c[0]} 0 2px, ${f.c[1]} 2px 4px),
             repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 2px, transparent 2px 4px);">
-          <img src="assets/img/${f.img}" alt="${f.n} fabric woven by Shree Laxmifeb"
+          <img src="assets/img/${photosOf(f)[0]}" alt="${f.n} fabric woven by Shree Laxmifeb"
                loading="lazy" decoding="async" onerror="this.remove()">
         </div>
         <span class="card-tag">${f.tag}</span>
@@ -371,7 +375,7 @@
           <div class="card-specs">
             ${Object.entries(f.s).map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join('')}
           </div>
-          <span class="card-ask">Request a Sample &rarr;</span>
+          <span class="card-ask">View &amp; Request Sample &rarr;</span>
         </div>
       </article>`).join('');
 
@@ -390,18 +394,82 @@
       ScrollTrigger.refresh();
     }));
 
-    // card click -> contact with the fabric preselected
+    // card click -> open the fabric up close, rather than jumping straight to
+    // the form. The enquiry action lives inside the quick view instead.
     grid.addEventListener('click', e => {
       const card = e.target.closest('.card');
-      if (!card) return;
-      const name = $('h3', card).textContent.trim();
-      const sel = $('#fType');
-      const match = Array.from(sel.options).find(o => o.text === name);
-      if (match) { sel.value = match.value; sel.closest('.f-row').classList.add('has-val'); }
-      goTo('#contact');
+      if (card) qv.open(+card.dataset.i);
     });
 
     revealOnScroll($$('.card'));
+  }
+
+  /* ==========================================================
+     10b. FABRIC QUICK VIEW
+     ========================================================== */
+  /* Buyers judge cloth by looking at it, so a click opens the fabric large
+     with its full spec sheet, and the sample request happens from there —
+     still landing them in the contact form with the fabric preselected. */
+  function quickView() {
+    const qv = $('#qv'), box = $('#qvBox'), x = $('#qvX');
+    if (!qv || !box) return { open: () => {} };
+
+    const close = () => { qv.classList.remove('is-open'); if (lenis) lenis.start(); };
+
+    const open = i => {
+      const f = FABRICS[i];
+      if (!f) return;
+      const imgs = photosOf(f);
+      box.innerHTML = `
+        <div class="qv-media">
+          <div class="qv-main">
+            <img id="qvMain" src="assets/img/${imgs[0]}" alt="${f.n} fabric woven by Shree Laxmifeb">
+          </div>
+          ${imgs.length > 1 ? `<div class="qv-thumbs">${imgs.map((src, n) => `
+            <button class="qv-thumb${n === 0 ? ' is-on' : ''}" data-src="assets/img/${src}" aria-label="Photo ${n + 1}">
+              <img src="assets/img/${src}" alt="" loading="lazy">
+            </button>`).join('')}</div>` : ''}
+        </div>
+        <div class="qv-info">
+          <span class="qv-tag">${f.tag}</span>
+          <h3>${f.n}</h3>
+          <p>${f.d}</p>
+          <div class="qv-specs">
+            ${Object.entries(f.s).map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join('')}
+          </div>
+          <button class="btn btn-gold qv-ask" data-name="${f.n}">Request a Sample</button>
+        </div>`;
+      qv.classList.add('is-open');
+      if (lenis) lenis.stop();
+    };
+
+    box.addEventListener('click', e => {
+      const thumb = e.target.closest('.qv-thumb');
+      if (thumb) {
+        $('#qvMain').src = thumb.dataset.src;
+        $$('.qv-thumb', box).forEach(t => t.classList.toggle('is-on', t === thumb));
+        return;
+      }
+      const ask = e.target.closest('.qv-ask');
+      if (!ask) return;
+      const sel = $('#fType');
+      const match = Array.from(sel.options).find(o => o.text === ask.dataset.name);
+      if (match) {
+        sel.value = match.value;
+        sel.closest('.f-row').classList.add('has-val');
+        // behave as though the buyer picked it themselves, so the floating
+        // label and any validation state update the same way
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      close();
+      goTo('#contact');
+    });
+
+    x.addEventListener('click', close);
+    qv.addEventListener('click', e => { if (e.target === qv) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+    return { open };
   }
 
   /* ==========================================================
@@ -493,9 +561,21 @@
   // Netlify Forms alone still works fine without it.
   const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx7n5xrpGRRsTXPiJKhcbBvQOnm5OLzqvVybSzJbUoNrE9-i8dBYuQBkVQGXox2EW_h/exec';
 
+  let restoreBtn = null;
+
   function form() {
     const f = $('#form');
     if (!f) return;
+
+    // Build the fabric dropdown from the same array the cards come from —
+    // matching them up by name is what lets "Request a Sample" preselect the
+    // right one, and hand-maintained lists drift apart the moment a fabric
+    // gets renamed or added.
+    const type = $('#fType');
+    if (type) {
+      type.insertAdjacentHTML('beforeend',
+        FABRICS.map(fb => `<option>${fb.n}</option>`).join('') + '<option>Other</option>');
+    }
 
     // floating labels need a placeholder to work with :not(:placeholder-shown)
     $$('#form input, #form textarea').forEach(i => {
@@ -585,15 +665,17 @@
           .catch(() => {});
       }
 
+      // Clear straight away rather than on a timer. A delayed reset would fire
+      // over the top of anything picked in the meantime — choosing another
+      // fabric right after sending would silently wipe itself a moment later.
+      f.reset();
+      $$('.f-row').forEach(r => r.classList.remove('has-val', 'is-bad', 'was-checked'));
+      $$('.f-err').forEach(s => { s.textContent = ''; });
+
       btn.classList.add('is-sent');
       label.textContent = 'Enquiry Sent ✓';
-
-      setTimeout(() => {
-        f.reset();
-        $$('.f-row').forEach(r => r.classList.remove('has-val', 'is-bad', 'was-checked'));
-        $$('.f-err').forEach(s => { s.textContent = ''; });
-      }, 2200);
-      setTimeout(() => { btn.classList.remove('is-sent'); label.textContent = 'Send Enquiry'; }, 4200);
+      clearTimeout(restoreBtn);
+      restoreBtn = setTimeout(() => { btn.classList.remove('is-sent'); label.textContent = 'Send Enquiry'; }, 4200);
     });
   }
 
@@ -619,7 +701,7 @@
   loomCanvas();
   droplets();
   heroVideos();
-  products();
+  products(quickView());
   rings();
   timeline();
   reveals();
