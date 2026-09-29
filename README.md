@@ -90,7 +90,7 @@ resize, since `<source media="...">` is evaluated when the video first loads):
 |---|---|---|
 | `fabric-showcase-mobile.mp4` | screen ≤ 767px wide (phones) | same subject, framed for a tall/narrow crop |
 | `fabric-showcase-desktop.mp4` | everything wider | the full widescreen shot |
-| `process-film.mp4` | — | Longer film for the "Watch The Loom" button |
+| `fabric-uses-film-real.mp4` | — | Longer film for the "Watch The Loom" button |
 
 To change the mobile/desktop cutoff, edit the `767px` in the `media="(max-width: ...)"`
 attribute on the mobile `<source>` in `index.html`.

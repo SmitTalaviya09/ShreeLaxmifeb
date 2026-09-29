@@ -225,12 +225,19 @@
       <div class="f-row"><input type="tel" id="fPhone" name="phone" autocomplete="tel" inputmode="tel" maxlength="20" required><label for="fPhone">Phone / WhatsApp</label><i></i></div>
       <div class="f-row"><input type="email" id="fMail" name="email" autocomplete="email" maxlength="120"><label for="fMail">Email</label><i></i></div>
       <div class="f-row f-sel">
-        <!-- options are generated from the FABRICS list in main.js, so the
-             names here can never drift out of sync with the fabric cards -->
-        <select id="fType" name="fabric" required>
+        <!-- Custom dropdown UI — a native <select>'s open option list can't
+             be restyled (that's the browser's own chrome, not CSS-reachable),
+             hence the button + list below. The real <select> stays in the
+             DOM, just visually hidden, so it's still what's actually
+             submitted; options are generated from the FABRICS list in
+             main.js, so the names here can never drift out of sync with the
+             fabric cards. -->
+        <button type="button" class="csel-btn" id="fTypeBtn" aria-haspopup="listbox" aria-expanded="false"><span class="csel-val"></span><svg class="csel-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <ul class="csel-list" id="fTypeList" role="listbox"></ul>
+        <select id="fType" name="fabric" class="csel-native" required tabindex="-1" aria-hidden="true">
           <option value="" selected disabled></option>
         </select>
-        <label for="fType">Fabric Type</label><i></i>
+        <label for="fTypeBtn">Fabric Type</label><i></i>
       </div>
       <div class="f-row"><input type="text" id="fQty" name="qty" inputmode="numeric" maxlength="12" required><label for="fQty">Monthly Quantity (metres)</label><i></i></div>
       <div class="f-row f-full"><textarea id="fMsg" name="message" rows="3"></textarea><label for="fMsg">Width, GSM, denier or any other detail</label><i></i></div>
@@ -279,8 +286,8 @@
   <button class="modal-x" id="modalX" aria-label="Close">&times;</button>
   <div class="modal-box">
     <div class="modal-slot" id="modalSlot">
-      <video controls playsinline preload="none" poster="assets/img/film-poster.jpg">
-        <source src="assets/video/process-film.mp4" type="video/mp4">
+      <video controls playsinline preload="none">
+        <source src="assets/video/fabric-uses-film-real.mp4" type="video/mp4">
       </video>
     </div>
   </div>

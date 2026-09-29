@@ -563,6 +563,84 @@
 
   let restoreBtn = null;
 
+  /* ==========================================================
+     17b. CUSTOM FABRIC-TYPE DROPDOWN
+     ========================================================== */
+  /* Browsers don't let CSS reach into a native <select>'s open option list
+     (that blue highlight is the OS/browser's own UI), so this drives a
+     button + styled list instead. The real <select> stays in the DOM, just
+     visually hidden — it's still what actually holds the value and gets
+     submitted, so validation, FormData and the quick view's "Request a
+     Sample" preselect all keep working exactly as before. */
+  function customSelect() {
+    const native = $('#fType');
+    const btn = $('#fTypeBtn'), list = $('#fTypeList');
+    if (!native || !btn || !list) return;
+    const valEl = $('.csel-val', btn);
+
+    const items = () => $$('li', list);
+    let active = -1;
+
+    const buildList = () => {
+      list.innerHTML = Array.from(native.options)
+        .filter(o => o.value)
+        .map(o => `<li role="option" data-value="${o.value}">${o.text}</li>`)
+        .join('');
+      sync();
+    };
+
+    const sync = () => {
+      const opt = native.options[native.selectedIndex];
+      valEl.textContent = (opt && opt.value) ? opt.text : '';
+      items().forEach(li => li.setAttribute('aria-selected', String(li.dataset.value === native.value)));
+    };
+
+    const highlight = () => items().forEach((li, i) => {
+      li.classList.toggle('is-active', i === active);
+      if (i === active) li.scrollIntoView({ block: 'nearest' });
+    });
+
+    const open = () => {
+      list.classList.add('is-open');
+      btn.setAttribute('aria-expanded', 'true');
+      active = items().findIndex(li => li.getAttribute('aria-selected') === 'true');
+      highlight();
+    };
+    const close = () => { list.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); active = -1; };
+    const toggle = () => (list.classList.contains('is-open') ? close() : open());
+
+    const choose = li => {
+      if (!li) return;
+      native.value = li.dataset.value;
+      native.dispatchEvent(new Event('change', { bubbles: true }));
+      close();
+      btn.focus();
+    };
+
+    buildList();
+
+    btn.addEventListener('click', toggle);
+    list.addEventListener('click', e => choose(e.target.closest('li')));
+
+    btn.addEventListener('keydown', e => {
+      if (!list.classList.contains('is-open')) {
+        if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(e.key)) { e.preventDefault(); open(); }
+        return;
+      }
+      if (e.key === 'ArrowDown') { e.preventDefault(); active = Math.min(active + 1, items().length - 1); highlight(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); active = Math.max(active - 1, 0); highlight(); }
+      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(items()[active]); }
+      else if (e.key === 'Escape') { e.preventDefault(); close(); }
+      else if (e.key === 'Tab') { close(); }
+    });
+
+    document.addEventListener('click', e => { if (!e.target.closest('.f-sel')) close(); });
+
+    // stays in sync if the value is set from elsewhere (the fabric quick
+    // view's "Request a Sample" button sets native.value programmatically)
+    native.addEventListener('change', sync);
+  }
+
   function form() {
     const f = $('#form');
     if (!f) return;
@@ -576,6 +654,7 @@
       type.insertAdjacentHTML('beforeend',
         FABRICS.map(fb => `<option>${fb.n}</option>`).join('') + '<option>Other</option>');
     }
+    customSelect();
 
     // floating labels need a placeholder to work with :not(:placeholder-shown)
     $$('#form input, #form textarea').forEach(i => {
