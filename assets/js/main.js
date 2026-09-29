@@ -693,8 +693,29 @@
   }
 
   /* ==========================================================
+     PRELOADER
+     ========================================================== */
+  function preloader() {
+    const el = $('#preloader');
+    if (!el) return;
+
+    let seen = false;
+    try { seen = !!sessionStorage.getItem('lf-seen'); } catch (e) {}
+
+    // reduced motion or already shown this session -> skip straight to the site
+    if (REDUCED || seen) { el.remove(); return; }
+    try { sessionStorage.setItem('lf-seen', '1'); } catch (e) {}
+
+    setTimeout(() => {
+      el.classList.add('is-done');
+      setTimeout(() => el.remove(), 700);
+    }, 1200);
+  }
+
+  /* ==========================================================
      BOOT
      ========================================================== */
+  preloader();
   heroIntro();
 
   nav();

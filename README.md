@@ -38,15 +38,14 @@ HERO-VIDEO-PLAN.md       how to shoot and prepare the video
 
 ## ⚠️ THINGS YOU MUST CHANGE BEFORE GOING LIVE
 
-Already done: phone (`+91 72018 05575`), WhatsApp, unit address (Bansari
-Textile Park, Pipodara), and GST number (`24AFWFS5330L1ZE`) are real and live
-across the site.
+Already done: phone (`+91 72018 05575`), WhatsApp, email
+(`shreelaxmitexfab@gmail.com`), unit address (Bansari Textile Park, Pipodara),
+and GST number (`24AFWFS5330L1ZE`) are real and live across the site.
 
 Still placeholders — search `index.html` for these and replace every one:
 
 | Find | Replace with |
 |---|---|
-| `info@shreelaxmifeb.com` | your real email, if this isn't it |
 | `www.shreelaxmifeb.com` | your real domain (appears in canonical/OG tags and the JSON-LD block) |
 | `48` (Water Jet Looms) | your real loom count, if different |
 | `65000` (Meters Per Day) | your real daily capacity, if different |
@@ -67,7 +66,7 @@ attribution required. So you are legally safe using them today.
 | Media | Safe to keep? |
 |---|---|
 | The 12 fabric close-ups (`fab-*.jpg`) | ✅ Fine long term. Generic fabric textures — nobody can tell whose cloth it is. Still, your own fabric photos will sell better. |
-| Hero videos (`hero-*.mp4`, `Video-15083.mp4`) | ⚠️ **Replace these.** They show *somebody else's* factory. Presenting them as your own floor misleads buyers, and a buyer who visits your unit and sees different machines will not trust you again. |
+| Hero video (`fabric-showcase-*.mp4`) | ⚠️ Same caution as before, if this isn't footage of your own floor — a buyer who visits and sees different machines won't trust the rest of the site either. |
 
 Treat the hero footage as a **temporary stand-in so the site is not empty
 while you arrange a proper shoot.** Fabric photos can stay.
@@ -83,32 +82,40 @@ the files.
 
 **Video** (`assets/video/`)
 
-| File | What it should show |
-|---|---|
-| `hero-1-weave.mp4` | Close-up of the water jet nozzle firing the weft ← most important |
-| `hero-2-powerloom.mp4` | Reed beating up / machine running |
-| `hero-3-aisle.mp4` | Wide shot down your row of looms |
-| `Video-15083.mp4` | A fourth hero clip in the rotation — replace or remove |
-| `process-film.mp4` | Longer film for the "Watch The Loom" button |
+The hero now runs on a **single video with two crops** — the browser picks
+whichever one matches at load time (this only happens once per load, not on
+resize, since `<source media="...">` is evaluated when the video first loads):
+
+| File | Used when | What it should show |
+|---|---|---|
+| `fabric-showcase-mobile.mp4` | screen ≤ 767px wide (phones) | same subject, framed for a tall/narrow crop |
+| `fabric-showcase-desktop.mp4` | everything wider | the full widescreen shot |
+| `process-film.mp4` | — | Longer film for the "Watch The Loom" button |
+
+To change the mobile/desktop cutoff, edit the `767px` in the `media="(max-width: ...)"`
+attribute on the mobile `<source>` in `index.html`.
 
 **Photos** (`assets/img/`) — just the `fab-*.jpg` fabric shots are in active
 use now.
 
-`HERO-VIDEO-PLAN.md` has the full shot list and camera settings.
+`HERO-VIDEO-PLAN.md` has the full shot list and camera settings — the framing
+guidance there still applies even though the filenames have changed.
 
-**Preparing a video** — these commands turn a phone clip into a web-ready file
-(ffmpeg is already installed on this machine):
+**Preparing a video** — these commands turn a phone clip into a web-ready file.
+**Note:** `ffmpeg` is *not* actually installed on this machine (despite what an
+earlier version of this file claimed) — install it first, or run these
+commands on a machine that has it:
 
 ```bash
 # 8-second hero clip, 1080p, no audio, ~1-3 MB
 ffmpeg -y -ss 0 -i myclip.mp4 -t 8 \
   -vf "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,fps=25" \
   -c:v libx264 -crf 30 -preset slow -an -pix_fmt yuv420p -movflags +faststart \
-  assets/video/hero-1-weave.mp4
+  assets/video/fabric-showcase-desktop.mp4
 
 # matching poster image
-ffmpeg -y -ss 0.5 -i assets/video/hero-1-weave.mp4 -vframes 1 -q:v 4 \
-  assets/img/hero-1-weave-poster.jpg
+ffmpeg -y -ss 0.5 -i assets/video/fabric-showcase-desktop.mp4 -vframes 1 -q:v 4 \
+  assets/img/hero-poster.jpg
 ```
 
 Keep every hero clip **under 4 MB** or the page gets slow on mobile data.
@@ -292,7 +299,7 @@ Then point your domain at it and enable HTTPS (free on all of the above).
 - [ ] Every placeholder above replaced with real data
 - [ ] Form tested end to end, mail received
 - [ ] WhatsApp and Call buttons tested on a real phone
-- [ ] Hero videos (`hero-*.mp4`, `Video-15083.mp4`) replaced with footage of YOUR unit
+- [ ] Hero video (`fabric-showcase-desktop.mp4` / `-mobile.mp4`) is footage of YOUR unit
 - [ ] `assets/img/og-image.jpg` created (1200×630) — this is what shows when the
       link is shared on WhatsApp
 - [ ] Checked on a real phone, not just a resized desktop window
