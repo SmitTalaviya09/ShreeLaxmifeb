@@ -32,22 +32,18 @@
   };
 
   /* Lenis' stop()/start() alone doesn't block native touch/wheel scroll in
-     this config, so a modal open still let the page scroll behind it -
-     lock the body in place too, restoring the exact scroll position on close. */
-  let lockY = 0;
+     this config, so a modal open still let the page scroll behind it - lock
+     it with overflow:hidden (not the position:fixed+scrollTo trick, which
+     resets window.scrollY and desyncs Lenis' own position tracking, breaking
+     goTo() calls made right after a close, e.g. quick-view's "Request a
+     Sample" scrolling to #contact). */
   const lockScroll = () => {
-    lockY = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${lockY}px`;
-    document.body.style.left = '0';
-    document.body.style.right = '0';
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
   };
   const unlockScroll = () => {
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.left = '';
-    document.body.style.right = '';
-    window.scrollTo(0, lockY);
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
   };
 
   /* ==========================================================
@@ -787,7 +783,6 @@
     const close = () => { m.classList.remove('is-open'); if (vid()) vid().pause(); if (lenis) lenis.start(); unlockScroll(); };
     open.addEventListener('click', () => { m.classList.add('is-open'); if (lenis) lenis.stop(); lockScroll(); if (vid()) vid().play().catch(() => {}); });
     x.addEventListener('click', close);
-    m.addEventListener('click', e => { if (e.target === m) close(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   }
 
