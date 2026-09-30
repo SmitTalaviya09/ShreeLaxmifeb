@@ -490,7 +490,7 @@ a.crow:hover b{color:#8A6A12}
 .foot{position:relative;background:var(--ink-deep);border-top:1px solid rgba(212,175,55,.25);padding:clamp(56px,7vw,90px) 0 0;overflow:hidden}
 .foot-ghost{
   position:absolute;left:50%;bottom:-.16em;transform:translateX(-50%);
-  font-family:var(--serif);font-size:clamp(4rem,17vw,15rem);color:rgba(247,245,240,.028);
+  font-family:var(--serif);font-size:clamp(4rem,17vw,15rem);color:rgba(247,245,240,.06);
   white-space:nowrap;letter-spacing:.02em;pointer-events:none;line-height:1;
 }
 .foot-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:40px}
