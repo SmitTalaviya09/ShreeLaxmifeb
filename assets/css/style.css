@@ -330,9 +330,17 @@ button,input,select,textarea{font:inherit;color:inherit}
 .qv-specs div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(27,24,21,.08)}
 .qv-specs span{font-size:var(--fs-label);letter-spacing:.16em;text-transform:uppercase;color:#6B6255}
 .qv-specs b{font-weight:400;font-size:.95rem;color:#8A6A12}
-.qv-x{position:absolute;top:20px;right:24px;background:none;border:0;color:var(--ivory);font-size:2.4rem;line-height:1;cursor:pointer;opacity:.7;transition:opacity .3s}
-.qv-x:hover{opacity:1}
-@media(max-width:800px){.qv-box{grid-template-columns:1fr;max-height:92svh}}
+.qv-x{
+  position:absolute;top:20px;right:24px;z-index:2;width:40px;height:40px;
+  display:grid;place-items:center;background:var(--ink);border:0;border-radius:50%;
+  color:var(--ivory);font-size:1.8rem;line-height:1;cursor:pointer;opacity:.85;
+  box-shadow:0 2px 10px rgba(0,0,0,.35);transition:opacity .3s,transform .3s;
+}
+.qv-x:hover{opacity:1;transform:scale(1.08)}
+@media(max-width:800px){
+  .qv-box{grid-template-columns:1fr;max-height:92svh}
+  .qv-x{top:12px;right:12px}
+}
 
 
 /* ============ ABOUT ============ */
