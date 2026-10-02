@@ -1,5 +1,5 @@
 /* ============================================================
-   SHREE LAXMIFEB — enquiry form → Google Sheet
+   SHREE LAXMI TEXFAB — enquiry form → Google Sheet
    ============================================================
    What this does: every time someone submits the enquiry form on the
    website, this script appends their details as a new row in the Google

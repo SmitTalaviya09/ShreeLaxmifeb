@@ -1,5 +1,5 @@
 /* ============================================================
-   SHREE LAXMIFEB — main.js
+   SHREE LAXMI TEXFAB — main.js
    GSAP + ScrollTrigger + Lenis
    ============================================================ */
 (function () {
@@ -380,7 +380,7 @@
         <div class="card-swatch" style="background:
             repeating-linear-gradient(90deg, ${f.c[0]} 0 2px, ${f.c[1]} 2px 4px),
             repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 2px, transparent 2px 4px);">
-          <img src="assets/img/${photosOf(f)[0]}" alt="${f.n} fabric woven by Shree Laxmifeb"
+          <img src="assets/img/${photosOf(f)[0]}" alt="${f.n} fabric woven by Shree Laxmi Texfab"
                loading="lazy" decoding="async" onerror="this.remove()">
         </div>
         <span class="card-tag">${f.tag}</span>
@@ -438,7 +438,7 @@
       box.innerHTML = `
         <div class="qv-media">
           <div class="qv-main">
-            <img id="qvMain" src="assets/img/${imgs[0]}" alt="${f.n} fabric woven by Shree Laxmifeb">
+            <img id="qvMain" src="assets/img/${imgs[0]}" alt="${f.n} fabric woven by Shree Laxmi Texfab">
           </div>
           ${imgs.length > 1 ? `<div class="qv-thumbs">${imgs.map((src, n) => `
             <button class="qv-thumb${n === 0 ? ' is-on' : ''}" data-src="assets/img/${src}" aria-label="Photo ${n + 1}">

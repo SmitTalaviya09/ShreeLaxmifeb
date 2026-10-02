@@ -1,4 +1,4 @@
-# SHREE LAXMIFEB — HERO VIDEO PLAN + HERO PROMPT
+# SHREE LAXMI TEXFAB — HERO VIDEO PLAN + HERO PROMPT
 
 Reference site the client likes: https://fabricfactory.in
 (full-screen video background + dark overlay + centered white serif headline)
@@ -12,14 +12,14 @@ Reference site the client likes: https://fabricfactory.in
 Fabricfactory shows a **handloom** — slow, wooden, traditional, artisanal. That
 matches their story (they sell handloom fabric).
 
-Shree Laxmifeb is a **water jet loom unit** — the opposite: high speed, modern,
+Shree Laxmi Texfab is a **water jet loom unit** — the opposite: high speed, modern,
 technical, precision, water. If we use slow handloom-style video, buyers will
 think we are a small handloom shop, not a modern manufacturing unit. That kills
 our positioning.
 
 **So: keep the LAYOUT, change the ENERGY.**
 
-| | Fabricfactory | Shree Laxmifeb (ours) |
+| | Fabricfactory | Shree Laxmi Texfab (ours) |
 |---|---|---|
 | Video subject | Man on wooden handloom | Water jet loom running at full speed |
 | Speed | Slow, calm | Fast + slow-motion close-ups mixed |
@@ -135,7 +135,7 @@ ffmpeg -i hero.mp4 -ss 00:00:02 -vframes 1 -q:v 3 hero-poster.jpg
 
 ## PART D — THE HERO PROMPT (copy this into your AI builder)
 
-> Build the hero section for **Shree Laxmifeb**, a water jet loom fabric
+> Build the hero section for **Shree Laxmi Texfab**, a water jet loom fabric
 > manufacturing unit in Gujarat, India. Reference the layout of
 > fabricfactory.in — full-bleed video background, dark overlay, centered white
 > serif headline — but make it feel modern, technical and premium instead of

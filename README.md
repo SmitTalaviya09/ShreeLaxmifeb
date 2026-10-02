@@ -1,4 +1,4 @@
-# Shree Laxmifeb — Website
+# Shree Laxmi Texfab — Website
 
 Water jet loom fabric manufacturing unit, Surat, Gujarat. Est. 2026.
 
@@ -46,7 +46,7 @@ Still placeholders — search `index.html` for these and replace every one:
 
 | Find | Replace with |
 |---|---|
-| `www.shreelaxmifeb.com` | your real domain (appears in canonical/OG tags and the JSON-LD block) |
+| `www.shreelaxmitexfab.com` | your real domain (appears in canonical/OG tags and the JSON-LD block) |
 | `48` (Water Jet Looms) | your real loom count, if different |
 | `65000` (Meters Per Day) | your real daily capacity, if different |
 

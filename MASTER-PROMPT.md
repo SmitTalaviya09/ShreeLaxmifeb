@@ -1,4 +1,4 @@
-# SHREE LAXMIFEB — WEBSITE MASTER PROMPT (v2026)
+# SHREE LAXMI TEXFAB — WEBSITE MASTER PROMPT (v2026)
 
 > Copy everything below into Claude / v0 / Cursor / Lovable / any AI builder.
 > Fill the `[ ]` blanks with your real data first.
@@ -11,7 +11,7 @@ You are a senior front-end engineer + motion designer building a **premium, anim
 
 ## 2. COMPANY BRIEF
 
-- **Company name:** Shree Laxmifeb
+- **Company name:** Shree Laxmi Texfab
 - **Tagline:** "Woven by Water. Built for the World." (alt: "Precision Weaving. Pure Water Technology.")
 - **Business:** Brand-new **Water Jet Loom fabric manufacturing unit**
 - **Location:** [City, e.g. Surat], Gujarat, India
@@ -72,7 +72,7 @@ Width (58" / 63" / 220 cm) - GSM - Denier - Reed x Pick - Weave type - MOQ - Fin
 
 ### 6.1 Preloader (0-2s)
 - Black screen. A single **thread of light** draws itself horizontally left to right.
-- Then vertical threads drop and **weave** through it (over/under) forming a small fabric square, which morphs into the Shree Laxmifeb logo.
+- Then vertical threads drop and **weave** through it (over/under) forming a small fabric square, which morphs into the Shree Laxmi Texfab logo.
 - Curtain wipes up. Percentage counter 0-100 in gold, bottom-right.
 
 ### 6.2 HERO — full-screen looping video background
@@ -81,7 +81,7 @@ Width (58" / 63" / 220 cm) - GSM - Denier - Reed x Pick - Weave type - MOQ - Fin
 - **On top of the video:** a Three.js layer of about 600 tiny cyan water droplets streaming left to right, reacting to mouse position.
 - Headline animates in **word by word, mask-reveal from below**:
   - H1: "Woven by Water."
-  - Sub: "Shree Laxmifeb — Water Jet Fabric Manufacturing, Est. 2026"
+  - Sub: "Shree Laxmi Texfab — Water Jet Fabric Manufacturing, Est. 2026"
 - Two CTAs: `Explore Fabrics` (gold fill) and `Watch The Loom` (ghost, opens video modal).
 - Bottom: live counter strip — Looms / Meters per Day / Yarn Types / On-time % — numbers count up on load.
 - Scroll cue: an animated **water droplet falling and rippling**.
@@ -145,7 +145,7 @@ Card stack that swipes/rotates, with a subtle 3D tilt on mouse move.
 - Sticky WhatsApp + Call floating buttons (bottom-right, gentle bounce).
 
 ### 6.13 Footer
-Dark navy, gold hairline top border, a large ghost wordmark "SHREE LAXMIFEB" behind the content, quick links, GST/address, social icons.
+Dark navy, gold hairline top border, a large ghost wordmark "SHREE LAXMI TEXFAB" behind the content, quick links, GST/address, social icons.
 
 ## 7. GLOBAL MOTION RULES
 
@@ -170,7 +170,7 @@ Dark navy, gold hairline top border, a large ghost wordmark "SHREE LAXMIFEB" beh
 - Lighthouse: Performance 85+, Accessibility 95+ (with animations on).
 - LCP under 2.5s. The hero video must not block LCP — the poster image is the LCP element.
 - Semantic HTML, alt text on every image, keyboard navigable, visible focus rings.
-- Meta title: "Shree Laxmifeb | Water Jet Loom Fabric Manufacturer in [City], Gujarat"
+- Meta title: "Shree Laxmi Texfab | Water Jet Loom Fabric Manufacturer in [City], Gujarat"
 - Meta description + OG image + JSON-LD `Organization` and `Product` schema.
 - Target keywords: water jet fabric manufacturer, polyester greige fabric supplier Surat, taffeta manufacturer India, water jet loom weaving unit.
 - Multi-language ready (English + Hindi + Gujarati toggle).
@@ -191,4 +191,4 @@ Give me the **complete, production-ready code** — full folder structure, every
 
 ## QUICK SHORT VERSION (if the tool has a small input box)
 
-> Build a premium 2026 animated Next.js 15 + Tailwind + GSAP ScrollTrigger + Framer Motion + Lenis website for **Shree Laxmifeb**, a new **water jet loom fabric manufacturing unit** in Gujarat, India (polyester greige, taffeta, satin, chiffon, lining, home-furnishing fabrics). Colours: deep navy #0A1A2F, water-jet cyan #00B4D8, classic gold #C9A227, ivory #F7F5F0 — dark, luxurious, industrial. Full-screen looping loom video hero with cyan water-droplet particles and a word-by-word mask-reveal headline. The centrepiece is a **pinned scroll-driven SVG animation of a water jet loom**: yarn creel, warp beam, healds, shedding, then **a cyan water jet firing the weft across the shed with droplet spray**, reed beat-up, fabric rolling onto the cloth beam, inspection and packing — with step text and a live RPM/meters HUD. Then: about with timeline, filterable fabric product grid with spec tables on hover, horizontal-scroll machinery gallery, "Why Water Jet?" animated comparison bars, closed-loop water recycling animation, client marquee, testimonials, enquiry form with gold underline focus and a water-fill submit button, sticky WhatsApp/Call, dark footer. Custom cursor, page-transition curtain, parallax, count-up stats, `prefers-reduced-motion` support, fully responsive, Lighthouse 85+, SEO metadata + JSON-LD. Give complete runnable code.
+> Build a premium 2026 animated Next.js 15 + Tailwind + GSAP ScrollTrigger + Framer Motion + Lenis website for **Shree Laxmi Texfab**, a new **water jet loom fabric manufacturing unit** in Gujarat, India (polyester greige, taffeta, satin, chiffon, lining, home-furnishing fabrics). Colours: deep navy #0A1A2F, water-jet cyan #00B4D8, classic gold #C9A227, ivory #F7F5F0 — dark, luxurious, industrial. Full-screen looping loom video hero with cyan water-droplet particles and a word-by-word mask-reveal headline. The centrepiece is a **pinned scroll-driven SVG animation of a water jet loom**: yarn creel, warp beam, healds, shedding, then **a cyan water jet firing the weft across the shed with droplet spray**, reed beat-up, fabric rolling onto the cloth beam, inspection and packing — with step text and a live RPM/meters HUD. Then: about with timeline, filterable fabric product grid with spec tables on hover, horizontal-scroll machinery gallery, "Why Water Jet?" animated comparison bars, closed-loop water recycling animation, client marquee, testimonials, enquiry form with gold underline focus and a water-fill submit button, sticky WhatsApp/Call, dark footer. Custom cursor, page-transition curtain, parallax, count-up stats, `prefers-reduced-motion` support, fully responsive, Lighthouse 85+, SEO metadata + JSON-LD. Give complete runnable code.

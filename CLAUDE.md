@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Marketing/lead-gen website for **Shree Laxmifeb**, a water jet loom fabric manufacturer in Surat, Gujarat (est. 2026). B2B: sells greige fabric in bulk (MOQ thousands of metres) to processors, traders and garment exporters — not a retail/e-commerce site. There is no cart or per-metre checkout anywhere; the entire commercial flow is "browse fabrics → enquiry form → human replies with a quote."
+Marketing/lead-gen website for **Shree Laxmi Texfab**, a water jet loom fabric manufacturer in Surat, Gujarat (est. 2026). B2B: sells greige fabric in bulk (MOQ thousands of metres) to processors, traders and garment exporters — not a retail/e-commerce site. There is no cart or per-metre checkout anywhere; the entire commercial flow is "browse fabrics → enquiry form → human replies with a quote."
 
 Plain HTML/CSS/JS. No framework, no build step, no `package.json`, no bundler, no npm install.
 

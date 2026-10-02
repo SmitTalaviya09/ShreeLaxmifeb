@@ -1,4 +1,4 @@
-/* Local preview server for the Shree Laxmifeb website.
+/* Local preview server for the Shree Laxmi Texfab website.
    Run:  node serve.js
    Then open the address it prints.                        */
 
@@ -54,7 +54,7 @@ server.on('error', e => {
 });
 
 server.listen(PORT, () => {
-  console.log('\n  SHREE LAXMIFEB — local preview');
+  console.log('\n  SHREE LAXMI TEXFAB — local preview');
   console.log('  --------------------------------');
   console.log('  Open:  http://localhost:' + PORT);
   console.log('  Stop:  press Ctrl + C\n');
